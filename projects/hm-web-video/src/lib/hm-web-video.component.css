@@ -1,0 +1,65 @@
+/* @import "~/node_modules/chimee-player/lib/chimee-player.css"; */
+
+container {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.vjs-video {
+  width: 100%;
+  height: 100%;
+}
+
+video {
+  width: 100%;
+  height: 100%;
+  display: block;
+  background-color: #000;
+}
+
+video:focus,
+video:active {
+  outline: none;
+}
+
+.loading {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  position: absolute;
+  pointer-events: none;
+  z-index: 70;
+  background: black;
+  display: none;
+}
+
+.loading img {
+  width: 35px;
+  height: 35px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.error {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  position: absolute;
+  background: black;
+  cursor: pointer;
+  z-index: 70;
+  display: none;
+}
+
+.error span {
+  display: block;
+  text-align: center;
+  padding-top: 30%;
+  color: white;
+}

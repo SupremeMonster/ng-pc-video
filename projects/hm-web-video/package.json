@@ -1,0 +1,14 @@
+{
+  "name": "hm-web-video",
+  "version": "1.0.9",
+  "peerDependencies": {
+    "@angular/common": "^7.2.0",
+    "@angular/core": "^7.2.0",
+    "hls.js": "^0.14.8"
+  },
+  "keywords": [
+    "video",
+    "hm",
+    "Angular"
+  ]
+}

@@ -1,0 +1,62 @@
+<!--
+ * @Descripttion:
+ * @version:
+ * @Author: yding
+ * @Date: 2020-05-08 18:43:11
+ * @LastEditors: yding
+ * @LastEditTime: 2020-09-18 09:56:34
+-->
+
+<!-- <div class="header"></div> -->
+<p>文件流/直播流</p>
+<div style="margin-top: 100px">
+  <hm-web-video
+    style="display: inline-block"
+    *ngFor="let item of list; let i = index"
+    #myPlayer
+    [maxReloadTimes]="3"
+    [videoHeight]="300"
+    [videoWidth]="400"
+    [autoplay]="autoplay"
+    [className]="'video' + i"
+    [loadingSrc]="'assets/loading.gif'"
+    [liveOptions]="liveOptions"
+    [errorContent]="'出错啦！'"
+    (PlayingEventListener)="handlePlaying($event)"
+    (WaitingEventListener)="handleWaiting($event)"
+    (PauseEventListener)="handlePause($event)"
+    (ErrorEventListener)="handleError($event)"
+    (DataLoadedEventListener)="handleLoaded($event)"
+    (FullScreenToggeleEventListener)="handleToggleFullScreen($event)"
+  ></hm-web-video>
+</div>
+<!-- <hm-ng-video
+  style="display: inline-block"
+  *ngFor="let item of list; let i = index"
+  #myPlayer
+  [maxReloadTimes]="3"
+  [videoWidth]="300"
+  [videoHeight]="200"
+  [loadingSrc]="'assets/loading.gif'"
+  [autoplay]="autoplay"
+  [errorContent]="'出错啦！'"
+  [className]="'video' + i"
+  [liveOptions]="liveOptions"
+  (PlayingEventListener)="handlePlaying($event)"
+  (WaitingEventListener)="handleWaiting($event)"
+  (PauseEventListener)="handlePause($event)"
+  (ErrorEventListener)="handleError($event)"
+  (DataLoadedEventListener)="handleLoaded($event)"
+></hm-ng-video> -->
+<!-- <app-video-test
+  [options]="{
+    autoplay: true,
+    controls: true,
+    sources: [
+      {
+        src: 'http://180.96.50.162:83/openUrl/0QkUBRm/live.m3u8',
+        type: 'application/x-mpegURL'
+      }
+    ]
+  }"
+></app-video-test> -->

@@ -1,0 +1,28 @@
+<!--
+ * @Descripttion:
+ * @version:
+ * @Author: yding
+ * @Date: 2020-05-08 19:05:06
+ * @LastEditors: yding
+ * @LastEditTime: 2020-08-18 09:59:16
+-->
+<div
+  class="vjs-video"
+  #fileVideoEl
+  [ngStyle]="{
+    height: videoHeight + 'px',
+    width: videoWidth + 'px',
+    position: 'relative'
+  }"
+  [hidden]="(liveLoaded && liveOptions && fileOptions) || !fileOptions"
+></div>
+<div
+  class="vjs-video"
+  #liveVideoEl
+  [ngStyle]="{
+    height: videoHeight + 'px',
+    width: videoWidth + 'px',
+    position: 'relative'
+  }"
+  [hidden]="(!liveLoaded && liveOptions && fileOptions) || !liveOptions"
+></div>

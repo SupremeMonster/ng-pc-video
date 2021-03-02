@@ -1,0 +1,179 @@
+
+<div class="content-white-bg" style="margin: 80px;">
+  <div nz-row nzType="flex">
+    <div nz-col nzSpan="6">
+      <button nz-button nzType="primary" (click)="edit()">新增</button>
+      <button nz-button nzType="primary" (click)="getDataListNoSetLocalStorage()">刷新</button>
+    </div>
+    <!-- <div nz-col nzSpan="16">
+    </div>
+    <div nz-col nzSpan="4">
+      <button nz-button [nzType]="'delete'" (click)="showModal()"><span>退出</span></button>
+    </div> -->
+  </div>
+  <div class="my-table" style="margin-top: 20px;">
+    <nz-table
+      #nzTable
+      [nzData]="listOfData"
+      nzFrontPagination="false"
+      [nzTotal]="total"
+      [(nzPageIndex)]="pageIndex"
+      [(nzPageSize)]="pageSize"
+      nzShowSizeChanger
+      nzSize="small"
+      nzShowQuickJumper
+      [nzPageSizeOptions]="pageSizeOptions"
+      (nzPageIndexChange)="getDataList()"
+      (nzPageSizeChange)="getDataList()"
+    >
+      <thead>
+        <tr>
+          <th>任务名称</th>
+          <th>任务分组</th>
+          <th style="width: 100px;">描述</th>
+          <th>执行类</th>
+          <th>执行时间</th>
+          <th>cron表达式</th>
+          <th>状态</th>
+          <th nzAlign="center">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of nzTable.data">
+          <td>{{ data.jobName }}</td>
+          <td>{{ data.jobGroup }}</td>
+          <td>{{ data.description || '--' }}</td>
+          <td>{{ data.jobClassName }}</td>
+          <td>
+            <p>上一次:{{ data.cronExpression | cronParser: 'prev' | date: 'yyyy-MM-dd: HH:mm:ss' }}</p>
+            <p>下一次:{{ data.cronExpression | cronParser: 'next' | date: 'yyyy-MM-dd: HH:mm:ss' }}</p>
+          </td>
+          <td>{{data.cronExpression}}</td>
+          <td  [ngStyle]="{
+            color: data.triggerState === 'ERROR'
+            ? '#FF0000'
+            : 'rgb(51,202,187)'
+          }">{{filterjson(data.triggerState)}}</td>
+          <td nzAlign="center">
+            <button nz-button class="button button-edit" (click)="edit(data)">
+              修改
+            </button>
+            <button
+            *ngIf="data.triggerState=== 'ERROR' || data.triggerState=== 'BLOCKED' ||
+            data.triggerState=== 'WAITING' || data.triggerState=== 'ACQUIRED' ||
+            data.triggerState=== 'PAUSED_BLOCKED' "
+            nz-button
+            class="button"
+            (click)="changeState(data)"
+            [ngStyle]="{
+              background: '#FF6600',
+              border:'#FF6600',
+              color:'#fff'
+            }"
+            >
+              停止
+            </button>
+            <button
+            *ngIf="data.triggerState=== 'PAUSED' || data.triggerState=== 'COMPLETE'"
+            nz-button
+            class="button"
+            (click)="changeState(data)"
+            [ngStyle]="{
+              background:'rgb(51,202,187)',
+              border:'rgb(51,202,187)',
+              color:'#fff'
+            }"
+            >
+             恢复
+            </button>
+            <button nz-button class="button button-delete" (click)="forcechangeState(data)"
+            *ngIf="data.triggerState=== 'ERROR' || data.triggerState=== 'BLOCKED' ||
+            data.triggerState=== 'WAITING' || data.triggerState=== 'ACQUIRED' ||
+            data.triggerState=== 'PAUSED_BLOCKED' ||  data.triggerState=== 'COMPLETE'"
+            [ngStyle]="{
+              background: '#FF0000',
+              border:'#FF0000',
+              color:'#fff'
+            }"
+            >
+             强制停止
+            </button>
+            <button nz-button class="button button-delete" (click)="delete(data)">
+              删除
+            </button>
+            <button nz-button class="button button-delete" (click)="triggerOne(data)">
+              执行一次
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+    <p class="my-page-info">共{{ total }}条记录，第{{ pageIndex }}/{{ totalPages }}页</p>
+  </div>
+  <app-tasks-edit (update)="getDataList()"></app-tasks-edit>
+</div>
+    <nz-modal
+    [(nzVisible)]="isVisible"
+    nzMaskClosable nzTitle="编辑连接设置"
+    nzMaskClosable="false"
+    nzKeyboard="false"
+    nzClosable="false"
+    >
+    <form nz-form [formGroup]="setUpForm" class="login-form">
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="host">连接名称</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24" >
+          <input type="text" nz-input formControlName="name"  />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="host">Host</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24" >
+          <input type="text" nz-input formControlName="host" placeholder="http://192.168.8.151:8888" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="service">服务</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24" >
+          <input type="text" nz-input formControlName="service" placeholder="tgipserver/api" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="version">版本号</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24" >
+          <input type="text" nz-input formControlName="version" placeholder="v3" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="key">密钥</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24" >
+          <input type="text" nz-input formControlName="key"  />
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+      <div *nzModalFooter>
+        <nz-spin nzSimple style="    display: inline-block;
+        margin-right: 30px;" *ngIf="setting"></nz-spin>
+        <button *ngIf="localStorageArray.length!==0" nz-button nzType="delete" (click)="isVisible = false" >取消</button>
+        <button style="display: inline-block;" nz-button nzType="primary" [disabled]="setting" (click)="handleOk()" >设置</button>
+      </div>
+    </nz-modal>
+<div class="right-top-select"  *ngIf="localStorageArray.length!==0">
+  <div style="display: inline-block;">
+    <a nz-dropdown [nzDropdownMenu]="menu" style = "color:#fff;">
+    当前地址：{{currentUrlName}}
+   <i nz-icon nzType="down"></i>
+ </a>
+
+ <nz-dropdown-menu #menu="nzDropdownMenu">
+   <ul nz-menu >
+     <li nz-menu-item *ngFor="let item of localStorageArray" >
+       <span style="display: inline-block;width: 100%;" (click)="switchUrl(item.name)">{{item.name}}</span>
+       <i style="line-height: 25px;position: relative;;top: 0px;right: 5px;" nz-icon nzType="close" (click)="clearUrl(item.name)"></i>
+     </li>
+   </ul>
+   </nz-dropdown-menu>
+  </div>
+  <a (click)="AddUrl()">新增地址</a>
+  <a (click)="clearAllUrl()">全部注销</a>
+</div>

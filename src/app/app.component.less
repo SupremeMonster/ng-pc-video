@@ -1,0 +1,24 @@
+.header {
+  position: fixed;
+  background: red;
+  top: 0px;
+  height: 180px;
+  z-index: 9;
+  /*高度可以不写，可以通过内部元素撑开，但是需要考虑是否会与自适应部分发生重合*/
+  width: 100%;
+  /*宽度是必要，如果没有宽度就无法撑出div*/
+}
+
+:host ::ng-deep .vjs-loading-spinner {
+  background: url(assets/loading.gif) no-repeat;
+}
+
+:host ::ng-deep .error {
+  background: url(assets/C.jpg) no-repeat;
+}
+
+:host ::ng-deep .vjs-modal-dialog .vjs-modal-dialog-content {
+  //  background: url(assets/C.jpg)no-repeat;
+  background: black;
+  z-index: 0;
+}

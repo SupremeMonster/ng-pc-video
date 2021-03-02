@@ -1,0 +1,42 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "src/",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "module": "es2015",
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es5",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2018",
+      "dom"
+    ],
+    "paths": {
+      "hm-ng-video": [
+        "dist/hm-ng-video"
+      ],
+      "hm-ng-video/*": [
+        "dist/hm-ng-video/*"
+      ],
+      "hm-web-video": [
+        "dist/hm-web-video"
+      ],
+      "hm-web-video/*": [
+        "dist/hm-web-video/*"
+      ],
+      "hm-ng-cron": [
+        "dist/hm-ng-cron"
+      ],
+      "hm-ng-cron/*": [
+        "dist/hm-ng-cron/*"
+      ]
+    }
+  }
+}

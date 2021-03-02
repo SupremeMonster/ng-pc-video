@@ -1,0 +1,36 @@
+<!--
+ * @Descripttion:
+ * @version:
+ * @Author: yding
+ * @Date: 2020-05-08 19:05:06
+ * @LastEditors: yding
+ * @LastEditTime: 2020-06-19 10:44:58
+-->
+<!-- <button
+  class="button"
+  style="background: red;"
+  (click)="fullScreen()"
+  value="全屏"
+>
+  全屏
+</button> -->
+<div
+  class="vjs-video"
+  #fileVideoEl
+  [ngStyle]="{
+    height: videoHeight + 'px',
+    width: videoWidth + 'px',
+    position: 'relative'
+  }"
+  [hidden]="(liveLoaded && liveOptions && fileOptions) || !fileOptions"
+></div>
+<div
+  class="vjs-video"
+  #liveVideoEl
+  [ngStyle]="{
+    height: videoHeight + 'px',
+    width: videoWidth + 'px',
+    position: 'relative'
+  }"
+  [hidden]="(!liveLoaded && liveOptions && fileOptions) || !liveOptions"
+></div>
